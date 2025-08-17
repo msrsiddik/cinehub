@@ -1,0 +1,10 @@
+extend type Query {
+    actors: [Actor!]!
+}
+
+type Actor {
+    actor_id: ID!
+    first_name: String
+    last_name: String
+    last_update: Time
+}
