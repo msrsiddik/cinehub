@@ -29,6 +29,13 @@ func main() {
 
 	app := fiber.New()
 
+	// Set up a health check endpoint
+	app.Get("/healthz", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"status": "ok",
+		})
+	})
+
 	server.GraphServer(app, db, q)
 
 	log.Fatal(app.Listen(":" + port))

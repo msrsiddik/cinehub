@@ -2,6 +2,7 @@ package server
 
 import (
 	"entities-module/query"
+	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -35,7 +36,10 @@ func GraphServer(app *fiber.App, db *gorm.DB, query *query.Query) {
 		Cache: lru.New[string](100),
 	})
 
-	app.Get("/graphql", adaptor.HTTPHandler(playground.Handler("GraphQL playground", "/query")))
+	graphqlPlayground := os.Getenv("GRAPHQL_PLAYGROUND")
+	if graphqlPlayground == "true" {
+		app.Get("/graphql", adaptor.HTTPHandler(playground.Handler("GraphQL playground", "/query")))
+	}
 	app.All("/query", adaptor.HTTPHandler(srv))
 
 }
