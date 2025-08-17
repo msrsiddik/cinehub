@@ -24,6 +24,9 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Empty(ctx context.Context) (*string, error)
 	Actors(ctx context.Context) ([]*model.Actor, error)
+	Address(ctx context.Context, addressID string) (*model.Address, error)
+	Addresses(ctx context.Context) ([]*model.Address, error)
+	City(ctx context.Context, cityID string) (*model.City, error)
 }
 
 // endregion ************************** generated!.gotpl **************************
@@ -38,6 +41,28 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		return nil, err
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_address_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "address_id", ec.unmarshalNID2string)
+	if err != nil {
+		return nil, err
+	}
+	args["address_id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_city_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "city_id", ec.unmarshalNID2string)
+	if err != nil {
+		return nil, err
+	}
+	args["city_id"] = arg0
 	return args, nil
 }
 
@@ -181,6 +206,200 @@ func (ec *executionContext) fieldContext_Query_actors(_ context.Context, field g
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Actor", field.Name)
 		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_address(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_address(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Address(rctx, fc.Args["address_id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Address)
+	fc.Result = res
+	return ec.marshalOAddress2ᚖentitiesᚑmoduleᚋmodelᚐAddress(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_address(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "address_id":
+				return ec.fieldContext_Address_address_id(ctx, field)
+			case "address":
+				return ec.fieldContext_Address_address(ctx, field)
+			case "address2":
+				return ec.fieldContext_Address_address2(ctx, field)
+			case "district":
+				return ec.fieldContext_Address_district(ctx, field)
+			case "city_id":
+				return ec.fieldContext_Address_city_id(ctx, field)
+			case "postal_code":
+				return ec.fieldContext_Address_postal_code(ctx, field)
+			case "phone":
+				return ec.fieldContext_Address_phone(ctx, field)
+			case "last_update":
+				return ec.fieldContext_Address_last_update(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Address", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_address_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_addresses(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_addresses(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Addresses(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Address)
+	fc.Result = res
+	return ec.marshalNAddress2ᚕᚖentitiesᚑmoduleᚋmodelᚐAddressᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_addresses(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "address_id":
+				return ec.fieldContext_Address_address_id(ctx, field)
+			case "address":
+				return ec.fieldContext_Address_address(ctx, field)
+			case "address2":
+				return ec.fieldContext_Address_address2(ctx, field)
+			case "district":
+				return ec.fieldContext_Address_district(ctx, field)
+			case "city_id":
+				return ec.fieldContext_Address_city_id(ctx, field)
+			case "postal_code":
+				return ec.fieldContext_Address_postal_code(ctx, field)
+			case "phone":
+				return ec.fieldContext_Address_phone(ctx, field)
+			case "last_update":
+				return ec.fieldContext_Address_last_update(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Address", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_city(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_city(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().City(rctx, fc.Args["city_id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.City)
+	fc.Result = res
+	return ec.marshalOCity2ᚖentitiesᚑmoduleᚋmodelᚐCity(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_city(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "city_id":
+				return ec.fieldContext_City_city_id(ctx, field)
+			case "city":
+				return ec.fieldContext_City_city(ctx, field)
+			case "country_id":
+				return ec.fieldContext_City_country_id(ctx, field)
+			case "last_update":
+				return ec.fieldContext_City_last_update(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type City", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_city_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -425,6 +644,66 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "address":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_address(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "addresses":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_addresses(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "city":
+			field := field
+
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_city(ctx, field)
 				return res
 			}
 

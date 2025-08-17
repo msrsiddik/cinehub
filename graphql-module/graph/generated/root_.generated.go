@@ -32,6 +32,8 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	Address() AddressResolver
+	City() CityResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 }
@@ -47,13 +49,34 @@ type ComplexityRoot struct {
 		LastUpdate func(childComplexity int) int
 	}
 
+	Address struct {
+		Address    func(childComplexity int) int
+		Address2   func(childComplexity int) int
+		AddressID  func(childComplexity int) int
+		CityID     func(childComplexity int) int
+		District   func(childComplexity int) int
+		LastUpdate func(childComplexity int) int
+		Phone      func(childComplexity int) int
+		PostalCode func(childComplexity int) int
+	}
+
+	City struct {
+		City       func(childComplexity int) int
+		CityID     func(childComplexity int) int
+		CountryID  func(childComplexity int) int
+		LastUpdate func(childComplexity int) int
+	}
+
 	Mutation struct {
 		Empty func(childComplexity int) int
 	}
 
 	Query struct {
-		Actors func(childComplexity int) int
-		Empty  func(childComplexity int) int
+		Actors    func(childComplexity int) int
+		Address   func(childComplexity int, addressID string) int
+		Addresses func(childComplexity int) int
+		City      func(childComplexity int, cityID string) int
+		Empty     func(childComplexity int) int
 	}
 }
 
@@ -104,6 +127,90 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Actor.LastUpdate(childComplexity), true
 
+	case "Address.address":
+		if e.complexity.Address.Address == nil {
+			break
+		}
+
+		return e.complexity.Address.Address(childComplexity), true
+
+	case "Address.address2":
+		if e.complexity.Address.Address2 == nil {
+			break
+		}
+
+		return e.complexity.Address.Address2(childComplexity), true
+
+	case "Address.address_id":
+		if e.complexity.Address.AddressID == nil {
+			break
+		}
+
+		return e.complexity.Address.AddressID(childComplexity), true
+
+	case "Address.city_id":
+		if e.complexity.Address.CityID == nil {
+			break
+		}
+
+		return e.complexity.Address.CityID(childComplexity), true
+
+	case "Address.district":
+		if e.complexity.Address.District == nil {
+			break
+		}
+
+		return e.complexity.Address.District(childComplexity), true
+
+	case "Address.last_update":
+		if e.complexity.Address.LastUpdate == nil {
+			break
+		}
+
+		return e.complexity.Address.LastUpdate(childComplexity), true
+
+	case "Address.phone":
+		if e.complexity.Address.Phone == nil {
+			break
+		}
+
+		return e.complexity.Address.Phone(childComplexity), true
+
+	case "Address.postal_code":
+		if e.complexity.Address.PostalCode == nil {
+			break
+		}
+
+		return e.complexity.Address.PostalCode(childComplexity), true
+
+	case "City.city":
+		if e.complexity.City.City == nil {
+			break
+		}
+
+		return e.complexity.City.City(childComplexity), true
+
+	case "City.city_id":
+		if e.complexity.City.CityID == nil {
+			break
+		}
+
+		return e.complexity.City.CityID(childComplexity), true
+
+	case "City.country_id":
+		if e.complexity.City.CountryID == nil {
+			break
+		}
+
+		return e.complexity.City.CountryID(childComplexity), true
+
+	case "City.last_update":
+		if e.complexity.City.LastUpdate == nil {
+			break
+		}
+
+		return e.complexity.City.LastUpdate(childComplexity), true
+
 	case "Mutation._empty":
 		if e.complexity.Mutation.Empty == nil {
 			break
@@ -117,6 +224,37 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Actors(childComplexity), true
+
+	case "Query.address":
+		if e.complexity.Query.Address == nil {
+			break
+		}
+
+		args, err := ec.field_Query_address_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Address(childComplexity, args["address_id"].(string)), true
+
+	case "Query.addresses":
+		if e.complexity.Query.Addresses == nil {
+			break
+		}
+
+		return e.complexity.Query.Addresses(childComplexity), true
+
+	case "Query.city":
+		if e.complexity.Query.City == nil {
+			break
+		}
+
+		args, err := ec.field_Query_city_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.City(childComplexity, args["city_id"].(string)), true
 
 	case "Query._empty":
 		if e.complexity.Query.Empty == nil {
@@ -237,6 +375,31 @@ type Actor {
     actor_id: ID!
     first_name: String
     last_name: String
+    last_update: Time
+}`, BuiltIn: false},
+	{Name: "../address.graphqls", Input: `extend type Query {
+    address(address_id: ID!): Address
+    addresses: [Address!]!
+}
+
+type Address {
+    address_id: ID!
+    address: String
+    address2: String
+    district: String
+    city_id: ID
+    postal_code: String
+    phone: String
+    last_update: Time
+}`, BuiltIn: false},
+	{Name: "../city.graphqls", Input: `extend type Query {
+    city(city_id: ID!): City
+}
+
+type City {
+    city_id: ID!
+    city: String
+    country_id: ID
     last_update: Time
 }`, BuiltIn: false},
 	{Name: "../schema.graphqls", Input: `# GraphQL schema example

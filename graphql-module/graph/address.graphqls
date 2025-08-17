@@ -1,0 +1,15 @@
+extend type Query {
+    address(address_id: ID!): Address
+    addresses: [Address!]!
+}
+
+type Address {
+    address_id: ID!
+    address: String
+    address2: String
+    district: String
+    city_id: ID
+    postal_code: String
+    phone: String
+    last_update: Time
+}

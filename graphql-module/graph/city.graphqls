@@ -1,0 +1,10 @@
+extend type Query {
+    city(city_id: ID!): City
+}
+
+type City {
+    city_id: ID!
+    city: String
+    country_id: ID
+    last_update: Time
+}
