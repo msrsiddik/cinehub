@@ -23,10 +23,6 @@ func RestApiServer(app *fiber.App) {
 	apiV1 := app.Group("/api/v1")
 
 	apiV1.Get("/healthz", GetHealthz)
-
-	apiV1.Get("/hello", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, Cinehub!")
-	})
 }
 
 // HealthCheck godoc
