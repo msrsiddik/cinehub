@@ -115,6 +115,24 @@ Server runs at: `http://localhost:3000`
 
 ---
 
+---
+
+## Generate Swagger Documentation
+
+To generate or update the Swagger documentation for the REST API module, run the following command from the project root:
+
+```bash
+swag init -g restapi-module/restapi/server.go -o restapi-module/docs
+```
+
+**Instructions:**
+- Make sure you are in the root directory of the project (where `go.work` is located).
+- The `-g` flag specifies the main Go file containing your Swagger annotations.
+- The `-o` flag specifies the output directory for the generated Swagger docs.
+- After running this command, the Swagger UI will be available at:
+
+---
+
 ## Credits
 - dvdrental sample DB (PostgreSQL)  
 - Fiber, GORM, gqlgen communities  

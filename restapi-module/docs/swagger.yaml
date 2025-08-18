@@ -1,0 +1,27 @@
+basePath: /api/v1
+host: localhost:3000
+info:
+  contact:
+    email: msrsiddik9@gmail.com
+    name: Cinehub Support
+  description: REST API for Cinehub using Fiber and GORM
+  title: Cinehub REST API
+  version: "1.0"
+paths:
+  /healthz:
+    get:
+      description: Returns status ok
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health check endpoint
+      tags:
+      - Health
+schemes:
+- http
+- https
+swagger: "2.0"

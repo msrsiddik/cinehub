@@ -5,6 +5,7 @@ import (
 	"graphql-module/server"
 	"log"
 	"os"
+	"restapi-module/restapi"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -37,6 +38,7 @@ func main() {
 	})
 
 	server.GraphServer(app, db, q)
+	restapi.RestApiServer(app)
 
 	log.Fatal(app.Listen(":" + port))
 }
