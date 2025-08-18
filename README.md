@@ -25,45 +25,47 @@ The goal is to demonstrate how a single domain model can power both API styles, 
 
 ## Project Layout
 ```
-.
-├─ main-module/
-│  ├─ cmd/
-│  │  └─ server/               # main.go (entrypoint)
-│  ├─ go.mod, go.sum
-├─ graphql-module/
-│  ├─ go.mod, go.sum
-│  ├─ gqlgen.yml
-│  ├─ tools.go
-│  ├─ graph/
-│  └─ server/
-├─ entities-module/
-│  ├─ go.mod, go.sum
-│  ├─ database/
-│  │  └─ db_init.go
-│  ├─ model/
-│  │  ├─ actor.gen.go
-│  │  ├─ address.gen.go
-│  │  ├─ category.gen.go
-│  │  ├─ city.gen.go
-│  │  ├─ country.gen.go
-│  │  ├─ customer.gen.go
-│  │  ├─ film_actor.gen.go
-│  │  ├─ film_category.gen.go
-│  │  ├─ film.gen.go
-│  │  ├─ inventory.gen.go
-│  │  ├─ language.gen.go
-│  │  ├─ payment.gen.go
-│  │  └─ ...
-│  └─ query/
-│     └─ ...
-├─ tmp/                        # build artifacts, logs
-│  ├─ build-errors.log
-│  └─ main
-├─ .air.toml                   # Air hot reload config
-├─ .env
-├─ .gitignore
-├─ go.work, go.work.sum        # Go workspace files
-├─ README.md
+cinehub/
+├── main-module/
+│   ├── cmd/
+│   │   └── server/               # main.go (entrypoint)
+│   ├── go.mod
+│   └── go.sum
+├── graphql-module/
+│   ├── go.mod
+│   ├── go.sum
+│   ├── gqlgen.yml
+│   ├── tools.go
+│   ├── graph/
+│   └── server/
+├── restapi-module/
+│   ├── go.mod
+│   ├── go.sum
+│   ├── restapi/
+│   │   ├── server.go
+│   │   └── ...
+│   ├── docs/                     # generated Swagger docs
+│   └── main.go
+├── entities-module/
+│   ├── go.mod
+│   ├── go.sum
+│   ├── database/
+│   │   └── db_init.go
+│   ├── model/
+│   │   ├── actor.gen.go
+│   │   ├── address.gen.go
+│   │   ├── ...
+│   └── query/
+│       └── ...
+├── tmp/                          # build artifacts, logs
+│   ├── build-errors.log
+│   └── main
+├── .air.toml                     # Air hot reload config
+├── .env
+├── .gitignore
+├── go.work
+├── go.work.sum
+├── README.md
 ```
 
 ---
