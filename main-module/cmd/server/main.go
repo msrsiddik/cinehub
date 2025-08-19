@@ -38,7 +38,7 @@ func main() {
 	})
 
 	server.GraphServer(app, db, q)
-	restapi.RestApiServer(app)
+	restapi.RestApiServer(app, q)
 
 	log.Fatal(app.Listen(":" + port))
 }

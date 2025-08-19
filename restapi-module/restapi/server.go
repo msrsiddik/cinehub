@@ -2,7 +2,10 @@ package restapi
 
 import (
 	_ "entities-module/model" // Import the database package to ensure it initializes
-	_ "restapi-module/docs"   // This is required to load the docs
+	"entities-module/query"
+	_ "restapi-module/docs" // This is required to load the docs
+	"restapi-module/restapi/handler"
+	"restapi-module/restapi/router"
 
 	"github.com/gofiber/fiber/v2"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
@@ -17,12 +20,17 @@ import (
 // @contact.name Cinehub Support
 // @contact.email msrsiddik2@gmail.com
 
-func RestApiServer(app *fiber.App) {
+func RestApiServer(app *fiber.App, query *query.Query) {
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	apiV1 := app.Group("/api/v1")
-
 	apiV1.Get("/healthz", GetHealthz)
+
+	actorHandler := handler.NewActorHandler(query)
+	router.NewActorRouter(apiV1, actorHandler)
+
+	addressHandler := handler.NewAddressHandler(query)
+	router.NewAddressRouter(apiV1, addressHandler)
 }
 
 // HealthCheck godoc

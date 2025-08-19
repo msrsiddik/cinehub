@@ -1,13 +1,156 @@
 basePath: /api/v1
+definitions:
+  model.Actor:
+    properties:
+      actor_id:
+        type: integer
+      first_name:
+        type: string
+      last_name:
+        type: string
+      last_update:
+        type: string
+    type: object
+  model.Address:
+    properties:
+      address:
+        type: string
+      address_id:
+        type: integer
+      address2:
+        type: string
+      city_id:
+        type: integer
+      district:
+        type: string
+      last_update:
+        type: string
+      phone:
+        type: string
+      postal_code:
+        type: string
+    type: object
+  response.Paginated-model_Actor:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.Actor'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  response.Paginated-model_Address:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.Address'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
 host: localhost:3000
 info:
   contact:
-    email: msrsiddik9@gmail.com
+    email: msrsiddik2@gmail.com
     name: Cinehub Support
   description: REST API for Cinehub using Fiber and GORM
   title: Cinehub REST API
   version: "1.0"
 paths:
+  /actors:
+    get:
+      description: Returns a list of all actors
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of actors per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Paginated-model_Actor'
+      summary: Get all actors
+      tags:
+      - Actors
+  /actors/{id}:
+    get:
+      description: Returns an actor by their ID
+      parameters:
+      - description: Actor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Actor'
+      summary: Get actor by ID
+      tags:
+      - Actors
+  /addresses:
+    get:
+      description: Returns a list of all addresses
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of addresses per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Paginated-model_Address'
+      summary: Get all addresses
+      tags:
+      - Addresses
+  /addresses/{id}:
+    get:
+      description: Returns an address by its ID
+      parameters:
+      - description: Address ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Address'
+      summary: Get address by ID
+      tags:
+      - Addresses
   /healthz:
     get:
       description: Returns status ok
